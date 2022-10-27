@@ -1,0 +1,19 @@
+name: 'Baidu Tieba Auto Sign'
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: windows-2019
+    steps:
+      - name: build
+        shell: cmd
+        run: |
+          vcpkg.exe install qt[default-features]:x64-windows-static
+          vcpkg export qt[default-features]:x64-windows-static --7zip --output-dir=./
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Release
+          path: ./
