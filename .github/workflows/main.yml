@@ -8,12 +8,18 @@ jobs:
   build:
     runs-on: windows-2019
     steps:
+      - name: Cache static package
+        id: install-cache
+        uses: actions/cache@v3
+        with:
+          path: C:/vcpkg/installed/x64-mingw-static
+          key: x64-mingw-static
       - name: build
         shell: cmd
         run: |
-          vcpkg.exe install qt[default-features]:x64-windows-static
+          vcpkg install qt[default-features]:x64-windows-static
           vcpkg export qt[default-features]:x64-windows-static --7zip --output-dir=./
       - uses: actions/upload-artifact@v3
         with:
-          name: Release
-          path: ./
+          name: vcpkg-export
+          path: ./vcpkg-export-*.7z
