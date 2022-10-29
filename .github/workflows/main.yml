@@ -19,6 +19,7 @@ jobs:
           ./LLVM-15.0.3-win64.exe /S
       - name: Build script
         run: |
+          $Env:PATH = "C:\Program Files\LLVM\bin;$Env:PATH"
           clang -v
           cd C:/
           git clone https://code.qt.io/qt/qt5.git -b 6.4.0
