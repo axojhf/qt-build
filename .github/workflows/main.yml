@@ -16,17 +16,10 @@ jobs:
       - name: Install LLVM and Clang
         run: |
           (new-object System.Net.WebClient).DownloadFile('https://github.com/llvm/llvm-project/releases/download/llvmorg-15.0.3/LLVM-15.0.3-win64.exe','LLVM-15.0.3-win64.exe')
-          ./LLVM-15.0.3-win64.exe /S
-          cd "C:\Program Files\LLVM\"
-          ls
-          cd bin
-          ls
-          ./clang -v
+          7z x -aoa -oC:\LLVM LLVM-15.0.3-win64.exe
       - name: Build script
         run: |
-          $Env:PATH = "C:\Program Files\LLVM\bin;$Env:PATH"
-          cd "%ProgramFiles%\LLVM\"
-          ls
+          $Env:PATH = "C:\LLVM\bin;$Env:PATH"
           clang -v
           cd C:/
           git clone https://code.qt.io/qt/qt5.git -b 6.4.0
