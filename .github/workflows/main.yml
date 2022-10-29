@@ -19,6 +19,7 @@ jobs:
           7z x -aoa -oC:\mingw64 mingw64.7z 
           del mingw64.7z
           cd C:\mingw64
+          ls
       - name: Build script
         run: |
           $Env:PATH = C:\mingw64\bin;$Env:PATH
