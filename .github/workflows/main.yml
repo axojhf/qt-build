@@ -26,7 +26,7 @@ jobs:
           ./build.ps1
       - uses: actions/upload-artifact@v3
         with:
-          path: ./artefacts/*
+          path:  C:/QtStatic/
   # build:
   #   runs-on: windows-2019
   #   steps:
