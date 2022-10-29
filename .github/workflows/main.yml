@@ -17,6 +17,10 @@ jobs:
         run: |
           (new-object System.Net.WebClient).DownloadFile('https://github.com/llvm/llvm-project/releases/download/llvmorg-15.0.3/LLVM-15.0.3-win64.exe','LLVM-15.0.3-win64.exe')
           7z x -aoa -oC:\LLVM LLVM-15.0.3-win64.exe
+      - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: amd64
+          toolset: 14.2
       - name: Build script
         run: |
           $Env:PATH = "C:\LLVM\bin;$Env:PATH"
