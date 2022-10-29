@@ -16,7 +16,7 @@ jobs:
           cd C:/
           git clone https://code.qt.io/qt/qt5.git -b 6.4.0
           cd qt5
-          perl init-repository -f --module-subset=qt5compat,qt3d,qtactiveqt,qtbase,qtcharts,qtdatavis3d,qtdeclarative,qtimageformats,qtmultimedia,qtpositioning,qtlocation,qtquick3d,qtquicktimeline,qtshadertools,qtsvg,qtwebsockets,qttools,qttranslations,qtlottie,qtvirtualkeyboard
+          perl init-repository -f --module-subset=qt5compat,qt3d,qtactiveqt,qtbase,qtcharts,qtdatavis3d,qtdeclarative,qtimageformats,qtmultimedia,qtquick3d,qtquicktimeline,qtshadertools,qtsvg,qtwebsockets,qttools,qttranslations,qtlottie,qtvirtualkeyboard
           # Create shadow build folder
           cd ..
           mkdir qt6_shadow
@@ -46,7 +46,7 @@ jobs:
           cd C:/
           git clone https://code.qt.io/qt/qt5.git -b 6.4.0
           cd qt5
-          perl init-repository -f --module-subset=qt5compat,qt3d,qtactiveqt,qtbase,qtcharts,qtdatavis3d,qtdeclarative,qtimageformats,qtmultimedia,qtpositioning,qtlocation,qtquick3d,qtquicktimeline,qtshadertools,qtsvg,qtwebsockets,qttools,qttranslations,qtlottie,qtvirtualkeyboard
+          perl init-repository -f --module-subset=qt5compat,qt3d,qtactiveqt,qtbase,qtcharts,qtdatavis3d,qtdeclarative,qtimageformats,qtmultimedia,qtquick3d,qtquicktimeline,qtshadertools,qtsvg,qtwebsockets,qttools,qttranslations,qtlottie,qtvirtualkeyboard
           # Create shadow build folder
           cd ..
           mkdir qt6_shadow
