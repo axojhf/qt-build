@@ -156,8 +156,8 @@ DEFINES += QT_STATIC_BUILD
     # Configure, compile and install Qt.
     Push-Location $QtSrcDir
     cmd /c "configure.bat -static -release -platform win32-g++ -opensource -confirm-license -prefix $QtDir -nomake examples -nomake tests"
-    mingw32-make #-k -j4
-    mingw32-make install #-k install
+    cmake --build . --parallel #-k -j4
+    cmake --install . #-k install
     Pop-Location
 
     # Patch Qt's installed mkspecs for static build of application.
