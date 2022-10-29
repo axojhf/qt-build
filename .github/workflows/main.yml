@@ -13,9 +13,9 @@ jobs:
       OS: "win64-msvc"
       QT_VERSION: "v6.4.0"
     steps:
-      - name: Set Mingw64
+      - name: "使用推荐脚本编译MinGW64版"
         run: |
-          (new-object System.Net.WebClient).DownloadFile('https://github.com/cristianadam/mingw-builds/releases/download/v11.2.0-rev3/x86_64-11.2.0-release-posix-seh-rt_v9-rev3.7z','mingw64.7z')
+          (new-object System.Net.WebClient).DownloadFile('https://github.com/cristianadam/mingw-builds/releases/download/v12.1.0-rev0/x86_64-12.1.0-release-win32-seh-rt_v10-rev0.7z','mingw64.7z')
           7z x -aoa -oC:\ mingw64.7z
           del mingw64.7z
       - name: Build script
