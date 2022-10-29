@@ -6,7 +6,7 @@ on:
       - mingw64
 jobs:
   win64-msvc:
-    name: Windows 64-bit MSVC QtBase
+    name: Qt Mingw64 Static
     runs-on: windows-2019
     env:
       INSTALL_PREFIX: 'C:\QtStaticMingw64'
@@ -24,7 +24,7 @@ jobs:
           toolset: 14.2
       - name: Build script
         run: |
-          $Env:PATH = "C:\mingw64\bin;$Env:PATH"
+          $env:Path = "C:\mingw64\bin;$env:Path"
           cd ..
           git clone https://code.qt.io/qt/qt5.git -b 6.4.0
           cd qt5
