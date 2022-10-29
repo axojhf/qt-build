@@ -16,16 +16,13 @@ jobs:
       - name: Set Mingw64
         run: |
           (new-object System.Net.WebClient).DownloadFile('https://github.com/brechtsanders/winlibs_mingw/releases/download/12.2.0-14.0.6-10.0.0-ucrt-r2/winlibs-x86_64-posix-seh-gcc-12.2.0-mingw-w64ucrt-10.0.0-r2.7z','mingw64.7z')
-          7z x mingw64.7z -oC:\mingw64 -aoa
+          7z x -aoa -oC:\mingw64 mingw64.7z 
           del mingw64.7z
+          cd C:\mingw64\bin
       - name: Build script
         run: |
-          $Env:PATH = "C:\mingw64\bin;$Env:PATH"
+          $Env:PATH = C:\mingw64\bin;$Env:PATH
           gcc -v
-          cd C:/
-          git clone --depth=1 https://github.com/axojhf/qt-build.git -b mingw64-official-script
-          cd qt-build
-          ./qt-windows-static-build.ps1
       - uses: actions/upload-artifact@v3
         with:
           name: qt6_mingw_static
