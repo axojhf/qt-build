@@ -59,7 +59,7 @@ jobs:
           git clone https://code.qt.io/qt/qt5.git -b 6.4.0
           cd qt5
           perl init-repository -f --module-subset=qt5compat,qt3d,qtactiveqt,qtbase,qtcharts,qtdatavis3d,qtdeclarative,qtimageformats,qtmultimedia,qtquick3d,qtquicktimeline,qtshadertools,qtsvg,qtwebsockets,qttools,qttranslations,qtlottie,qtvirtualkeyboard
-          ./configure.bat -release -static -static-runtime -platform win32-g++ -prefix "C:\QtStaticMingw64" -confirm-license -nomake examples -nomake tests
+          ./configure.bat -release -static -platform win32-g++ -prefix "C:\QtStaticMingw64" -confirm-license -nomake examples -nomake tests
           cmake --build . --parallel 4
           cmake --install .
       - name: Package Directories
