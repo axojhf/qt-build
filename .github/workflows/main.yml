@@ -1,4 +1,4 @@
-name: 'Qt Mingw64 Static'
+name: 'Qt Clang Msvc Static'
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - win32-clang-msvc
 jobs:
   win32-clang-msvc:
-    name: Qt LLVM Static
+    name: Qt LLVM Static Small For Gui
     runs-on: windows-2019
     env:
       INSTALL_PREFIX: 'C:\QtStaticLLVM'
@@ -28,11 +28,14 @@ jobs:
           cd C:/
           git clone https://code.qt.io/qt/qt5.git -b 6.4.0
           cd qt5
-          perl init-repository -f --module-subset=default
+          perl init-repository -f --module-subset=qt5compat,qt3d,qtbase,qtcharts,qtdeclarative,qtimageformats,qtmultimedia,qtquick3d,qtquicktimeline,qtshadertools,qtsvg,qtwebchannel,qtwebengine,qtwebsockets,qtwebview,qtnetworkauth,qttools,qttranslations,qtlocation,qtlottie,qtcanvas3d,qtquick3dphysics
           ./configure.bat -release -static -static-runtime -platform win32-clang-msvc -prefix "C:\QtStaticLLVM" -confirm-license -nomake examples -nomake tests
           cmake --build . --parallel 4
           cmake --install .
+      - name: Package binaries
+        run: |
+          7z a qt6_static.7z C:\QtStaticLLVM
       - uses: actions/upload-artifact@v3
         with:
-          name: qt6_mingw_static.zip
-          path: C:\QtStaticLLVM
+          name: qt6_clang_msvc_static_small_for_gui
+          path: qt6_static.7z
