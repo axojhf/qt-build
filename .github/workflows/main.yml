@@ -6,14 +6,14 @@ on:
       - mingw64-official-script
 jobs:
   mingw64-win:
-    name: mingw64 Action
+    name: "使用推荐脚本编译MinGW64版"
     runs-on: windows-2019
     env:
       INSTALL_PREFIX: 'C:\QtStaticMingw64'
       OS: "win64-msvc"
       QT_VERSION: "v6.4.0"
     steps:
-      - name: "使用推荐脚本编译MinGW64版"
+      - name: Set Mingw64
         run: |
           (new-object System.Net.WebClient).DownloadFile('https://github.com/cristianadam/mingw-builds/releases/download/v12.1.0-rev0/x86_64-12.1.0-release-win32-seh-rt_v10-rev0.7z','mingw64.7z')
           7z x -aoa -oC:\ mingw64.7z
