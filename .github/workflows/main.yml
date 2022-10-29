@@ -22,7 +22,7 @@ jobs:
           ls
       - name: Build script
         run: |
-          $Env:PATH = C:\mingw64\bin;$Env:PATH
+          $Env:PATH = "C:\mingw64\bin;$Env:PATH"
           gcc -v
       - uses: actions/upload-artifact@v3
         with:
