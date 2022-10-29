@@ -16,8 +16,9 @@ jobs:
       - name: Install LLVM and Clang
         run: |
           (new-object System.Net.WebClient).DownloadFile('https://github.com/llvm/llvm-project/releases/download/llvmorg-15.0.3/LLVM-15.0.3-win64.exe','LLVM-15.0.3-win64.exe')
-          "C:\Program Files\LLVM\Uninstall.exe" /S
+          rem "C:\Program Files\LLVM\Uninstall.exe" /S
           ./LLVM-15.0.3-win64.exe /S
+          cd "C:\Program Files\LLVM\"
       - name: Build script
         run: |
           $Env:PATH = "C:\Program Files\LLVM\bin;$Env:PATH"
