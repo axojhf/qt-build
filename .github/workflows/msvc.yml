@@ -1,9 +1,10 @@
-name: 'Qt Msvc Static'
+name: 'Msvc Static'
 
 on:
   push:
     branches:
       - msvc
+
 jobs:
   win32-msvc:
     name: Qt MSVC Static Small For Gui MT
