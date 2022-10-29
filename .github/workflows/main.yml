@@ -1,12 +1,12 @@
-name: 'Qt Mingw64 Static'
+name: 'mingw64-official-script Action'
 
 on:
   push:
     branches:
-      - mingw64
+      - mingw64-official-script
 jobs:
-  win64-msvc:
-    name: Windows 64-bit MSVC QtBase
+  mingw64-win:
+    name: mingw64 Action
     runs-on: windows-2019
     env:
       INSTALL_PREFIX: 'C:\QtStaticMingw64'
@@ -18,25 +18,15 @@ jobs:
           (new-object System.Net.WebClient).DownloadFile('https://github.com/brechtsanders/winlibs_mingw/releases/download/12.2.0-14.0.6-10.0.0-ucrt-r2/winlibs-x86_64-posix-seh-gcc-12.2.0-mingw-w64ucrt-10.0.0-r2.7z','mingw64.7z')
           7z x mingw64.7z -oC:\mingw64 -aoa
           del mingw64.7z
-      - uses: ilammy/msvc-dev-cmd@v1
-        with:
-          arch: amd64
-          toolset: 14.2
       - name: Build script
         run: |
           $Env:PATH = "C:\mingw64\bin;$Env:PATH"
-          cd ..
-          git clone https://code.qt.io/qt/qt5.git -b 6.4.0
-          cd qt5
-          perl init-repository -f --module-subset=default
-          ./configure.bat -release -static -static-runtime -platform win32-g++ -prefix "C:\QtStaticMingw64" -confirm-license -nomake examples -nomake tests
-          cmake --build . --parallel 4
-          cmake --install .
-      - name: Package binaries
-        run: |
-          # Create archive of the pre-built Qt binaries
-          7z a qt6_mingw_static.zip C:\QtStaticMingw64
-      - uses: actions/upload-artifact@v1
+          gcc -v
+          cd C:/
+          git clone --depth=1 https://github.com/axojhf/qt-build.git -b mingw64-official-script
+          cd qt-build
+          ./qt-windows-static-build.ps1
+      - uses: actions/upload-artifact@v3
         with:
-          name: qt6_mingw_static.zip
-          path: qt6_mingw_static.zip
+          name: qt6_mingw_static
+          path: C:/QtStaticMingw64
