@@ -1,0 +1,83 @@
+name: 'Qt Clang Msvc Static'
+
+on:
+  push:
+    branches:
+      - win32-clang-msvc
+
+jobs:
+  win32-clang-msvc:
+    name: Qt LLVM Static Small For Gui
+    runs-on: windows-2019
+    env:
+      INSTALL_PREFIX: 'C:\QtStaticLLVM'
+      OS: "win32-clang-msvc"
+      QT_VERSION: "v6.4.0"
+    steps:
+      - name: Del VCPKG
+        run: |
+          rm C:/vcpkg -r -force
+      - name: Install LLVM and Clang
+        run: |
+          (new-object System.Net.WebClient).DownloadFile('https://github.com/llvm/llvm-project/releases/download/llvmorg-15.0.3/LLVM-15.0.3-win64.exe','LLVM-15.0.3-win64.exe')
+          7z x -aoa -oC:\LLVM LLVM-15.0.3-win64.exe
+      - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: amd64
+          toolset: 14.2
+      - name: Build script
+        run: |
+          $Env:PATH = "C:\LLVM\bin;$Env:PATH"
+          clang -v
+          cd C:/
+          git clone https://code.qt.io/qt/qt5.git -b 6.4.0
+          cd qt5
+          perl init-repository -f --module-subset=qt5compat,qt3d,qtactiveqt,qtbase,qtcharts,qtdatavis3d,qtdeclarative,qtimageformats,qtmultimedia,qtquick3d,qtquicktimeline,qtshadertools,qtsvg,qtwebsockets,qttools,qttranslations,qtlottie,qtvirtualkeyboard
+          ./configure.bat -release -static -static-runtime -platform win32-clang-msvc -prefix "C:\QtStaticLLVM" -confirm-license -nomake examples -nomake tests
+          cmake --build . --parallel 4
+          cmake --install .
+      - name: Package binaries
+        run: |
+          7z a qt6_static.7z C:\QtStaticLLVM
+      - uses: actions/upload-artifact@v3
+        with:
+          name: qt6_clang_msvc_static_small_for_gui_MT
+          path: qt6_static.7z
+#MD编译
+  win32-clang-msvc-md:
+    name: Qt LLVM Static Small For Gui MD
+    runs-on: windows-2019
+    env:
+      INSTALL_PREFIX: 'C:\QtStaticLLVM'
+      OS: "win32-clang-msvc"
+      QT_VERSION: "v6.4.0"
+    steps:
+      - name: Del VCPKG
+        run: |
+          rm C:/vcpkg -r -force    
+      - name: Install LLVM and Clang
+        run: |
+          (new-object System.Net.WebClient).DownloadFile('https://github.com/llvm/llvm-project/releases/download/llvmorg-15.0.3/LLVM-15.0.3-win64.exe','LLVM-15.0.3-win64.exe')
+          7z x -aoa -oC:\LLVM LLVM-15.0.3-win64.exe
+      - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: amd64
+          toolset: 14.2
+      - name: Build script
+        run: |
+          $Env:PATH = "C:\LLVM\bin;$Env:PATH"
+          clang -v
+          cd C:/
+          git clone https://code.qt.io/qt/qt5.git -b 6.4.0
+          cd qt5
+          perl init-repository -f --module-subset=qt5compat,qt3d,qtactiveqt,qtbase,qtcharts,qtdatavis3d,qtdeclarative,qtimageformats,qtmultimedia,qtquick3d,qtquicktimeline,qtshadertools,qtsvg,qtwebsockets,qttools,qttranslations,qtlottie,qtvirtualkeyboard
+          ./configure.bat -release -static -platform win32-clang-msvc -prefix "C:\QtStaticLLVM" -confirm-license -nomake examples -nomake tests
+          cmake --build . --parallel 4
+          cmake --install .
+      - name: Package binaries
+        run: |
+          7z a qt6_static.7z C:\QtStaticLLVM
+      - uses: actions/upload-artifact@v3
+        with:
+          name: qt6_clang_msvc_static_small_for_gui_MD
+          path: qt6_static.7z
