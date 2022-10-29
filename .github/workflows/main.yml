@@ -19,6 +19,10 @@ jobs:
           rem "C:\Program Files\LLVM\Uninstall.exe" /S
           ./LLVM-15.0.3-win64.exe /S
           cd "C:\Program Files\LLVM\"
+          ls
+          cd bin
+          ls
+          ./clang -v
       - name: Build script
         run: |
           $Env:PATH = "C:\Program Files\LLVM\bin;$Env:PATH"
