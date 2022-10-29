@@ -1,9 +1,9 @@
-name: 'mingw64-official-script Action'
+name: 'test Action'
 
 on:
   push:
     branches:
-      - mingw64-official-script
+      - test
 jobs:
   mingw64-win:
     name: mingw64 Action
