@@ -35,7 +35,7 @@ jobs:
           cd C:/
           git clone https://code.qt.io/qt/qt5.git -b 6.4
           cd qt5
-          perl init-repository -f --module-subset=qt5compat,qt3d,qtactiveqt,qtbase,qtcharts,qtdeclarative,qtimageformats,qtmultimedia,qtquick3d,qtquicktimeline,qtsvg,qttools,qttranslations,qtlottie,qtvirtualkeyboard
+          perl init-repository -f --module-subset=qt5compat,qt3d,qtactiveqt,qtbase,qtcharts,qtdeclarative,qtimageformats,qtmultimedia,qtquicktimeline,qtsvg,qttools,qttranslations,qtlottie,qtvirtualkeyboard
           ./configure.bat -release -shared -platform win32-g++ -prefix "C:\QtStaticMingw64" -confirm-license -nomake examples -nomake tests
           cmake --build . --parallel 4
           cmake --install .
