@@ -3,7 +3,7 @@ name: 'Custom Qt MinGw64 Dyn'
 on:
   push:
     branches:
-      - mingw64-custom
+      - mingw64_custom
 jobs:
   dyn-mingw64-custom:
     name: Qt Mingw64 Static
