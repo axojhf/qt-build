@@ -3,15 +3,11 @@ name: 'Qt Mingw64 Static'
 on:
   push:
     branches:
-      - mingw64-dyn-ffmpeg-back
+      - mingw64-custom
 jobs:
-  dyn-mingw64-mini-for-gui:
+  dyn-mingw64-custom:
     name: Qt Mingw64 Static
     runs-on: windows-2019
-    env:
-      INSTALL_PREFIX: 'C:\QtStaticMingw64'
-      OS: "win32-g++"
-      QT_VERSION: "v6.4.0"
     steps:
       - name: Set Mingw64 Ninja
         run: |
@@ -25,11 +21,7 @@ jobs:
           7z x -aoa -oC:\ ffmpeg-master-latest-win64-gpl-shared.zip
           ren C:\ffmpeg-master-latest-win64-gpl-shared ffmpeg
           del ffmpeg-master-latest-win64-gpl-shared.zip
-      # - uses: ilammy/msvc-dev-cmd@v1
-      #   with:
-      #     arch: amd64
-      #     toolset: 14.2
-      - name: Build script
+      - name: Init Qt Repository
         run: |
           $env:Path = "C:\mingw64\bin;C:\ninja;C:\ffmpeg\include;C:\ffmpeg\lib;C:\ffmpeg\bin;$env:Path"
           $env:QT_MEDIA_BACKEND = "ffmpeg"
@@ -39,13 +31,19 @@ jobs:
           cd C:/
           git clone https://code.qt.io/qt/qt5.git -b 6.4
           cd qt5
-          perl init-repository -f --module-subset=qt5compat,qt3d,qtactiveqt,qtbase,qtcharts,qtdeclarative,qtimageformats,qtmultimedia,qtquicktimeline,qtquick3d,qtshadertools,qtsvg,qttools,qttranslations,qtlottie,qtvirtualkeyboard
-          ./configure.bat -release -shared -platform win32-g++ -prefix "C:\QtStaticMingw64" -confirm-license -nomake examples -nomake tests
+          perl init-repository -f --module-subset=qt5compat,qt3d,qtbase,qtcharts,qtdeclarative,qtimageformats,qtmultimedia,qtquicktimeline,qtquick3d,qtshadertools,qtsvg
+          rm -r qtmultimedia
+          git clone --depth=1 https://github.com/axojhf/qtmultimedia.git -b 6.4-mod
+          ls
+      - name: Build
+        run: |
+          cd C:/qt5
+          ./configure.bat -release -shared -platform win32-g++ -prefix "C:\QtMinGw64Dyn" -confirm-license -nomake examples -nomake tests
           cmake --build . --parallel 4
           cmake --install .
       - name: Package Directories
         run: |
-          7z a qt6_dyn.7z C:\QtStaticMingw64
+          7z a qt6_dyn.7z C:\QtMinGw64Dyn
       - uses: actions/upload-artifact@v3
         with:
           name: qt6_mingw64-dyn-ffmpeg-back
