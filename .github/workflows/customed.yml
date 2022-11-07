@@ -31,8 +31,8 @@ jobs:
           cd C:/
           git clone https://code.qt.io/qt/qt5.git -b 6.4
           cd qt5
-          perl init-repository -f --module-subset=qt5compat,qt3d,qtbase,qtcharts,qtdeclarative,qtimageformats,qtmultimedia,qtquicktimeline,qtquick3d,qtshadertools,qtsvg
-          rm -r qtmultimedia
+          perl init-repository -f --module-subset=qt5compat,qt3d,qtbase,qtcharts,qtdeclarative,qtimageformats,qtquicktimeline,qtquick3d,qtshadertools,qtsvg
+          rm -r -force qtmultimedia
           git clone --depth=1 https://github.com/axojhf/qtmultimedia.git -b 6.4-mod
           ls
       - name: Build
