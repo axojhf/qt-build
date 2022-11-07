@@ -37,6 +37,10 @@ jobs:
           ls
       - name: Build
         run: |
+          $env:Path = "C:\mingw64\bin;C:\ninja;C:\ffmpeg\include;C:\ffmpeg\lib;C:\ffmpeg\bin;$env:Path"
+          $env:QT_MEDIA_BACKEND = "ffmpeg"
+          $env:FFMPEG_INCLUDE_DIRS = "C:\ffmpeg\include"
+          $env:FFMPEG_LIBRARY_DIRS = "C:\ffmpeg\lib"
           cd C:/qt5
           ./configure.bat -release -shared -platform win32-g++ -prefix "C:\QtMinGw64Dyn" -confirm-license -nomake examples -nomake tests
           cmake --build . --parallel 4
