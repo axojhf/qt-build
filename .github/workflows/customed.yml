@@ -1,4 +1,4 @@
-name: 'Qt Mingw64 Static'
+name: 'Custom Qt MinGw64 Dyn'
 
 on:
   push:
