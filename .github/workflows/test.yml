@@ -9,26 +9,30 @@ jobs:
     name: Test Action
     runs-on: windows-2019
     steps:
-      - name: Init ToolsChains
+      - name: Test
         run: |
-          (new-object System.Net.WebClient).DownloadFile('https://github.com/cristianadam/mingw-builds/releases/download/v11.2.0-rev3/x86_64-11.2.0-release-posix-seh-rt_v9-rev3.7z','mingw64.7z')
-          7z x -aoa -oC:\ mingw64.7z
-          rm mingw64.7z
-          (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
-          7z x -aoa -oC:\ninja ninja-win.zip
-          rm ninja-win.zip
-      - name: Init Vcpkg
-        run: |
-          $env:Path = "C:\mingw64\bin;$env:Path"
-          cd C:
-          rm -r -force vcpkg
-          git clone --depth=1 https://github.com/microsoft/vcpkg
-          cd vcpkg
-          .\bootstrap-vcpkg.bat
-          .\vcpkg.exe install harfbuzz[glib,graphite2]:x64-mingw-static
-      - uses: actions/upload-artifact@v3
-        with:
-          name: vcpkg-build
-          path: |
-            C:\vcpkg\installed\x64-mingw-static\lib
-            C:\vcpkg\installed\x64-mingw-static\include
+          where.exe perl
+          where.exe python
+      # - name: Init ToolsChains
+      #   run: |
+      #     (new-object System.Net.WebClient).DownloadFile('https://github.com/cristianadam/mingw-builds/releases/download/v11.2.0-rev3/x86_64-11.2.0-release-posix-seh-rt_v9-rev3.7z','mingw64.7z')
+      #     7z x -aoa -oC:\ mingw64.7z
+      #     rm mingw64.7z
+      #     (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
+      #     7z x -aoa -oC:\ninja ninja-win.zip
+      #     rm ninja-win.zip
+      # - name: Init Vcpkg
+      #   run: |
+      #     $env:Path = "C:\mingw64\bin;$env:Path"
+      #     cd C:
+      #     rm -r -force vcpkg
+      #     git clone --depth=1 https://github.com/microsoft/vcpkg
+      #     cd vcpkg
+      #     .\bootstrap-vcpkg.bat
+      #     .\vcpkg.exe install harfbuzz[glib,graphite2]:x64-mingw-static
+      # - uses: actions/upload-artifact@v3
+      #   with:
+      #     name: vcpkg-build
+      #     path: |
+      #       C:\vcpkg\installed\x64-mingw-static\lib
+      #       C:\vcpkg\installed\x64-mingw-static\include
