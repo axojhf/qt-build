@@ -1,0 +1,25 @@
+name: 'test Action'
+
+on:
+  push:
+    branches:
+      - test
+jobs:
+  test:
+    name: Test Action
+    runs-on: windows-2019
+    steps:
+      - name: Init Vcpkg
+        run: |
+          cd C:
+          rm -r -force vcpkg
+          git clone --depth=1 https://github.com/microsoft/vcpkg
+          cd vcpkg
+          .\bootstrap-vcpkg.bat
+          .\vcpkg.exe install zlib:x64-mingw-static libjpeg-turbo:x64-mingw-static libpng:x64-mingw-static freetype:x64-mingw-static pcre2:x64-mingw-static harfbuzz[glib,graphite2]:x64-mingw-static
+      - uses: actions/upload-artifact@v3
+        with:
+          name: vcpkg-build
+          path: |
+            C:\vcpkg\installed\x64-windows-static\lib
+            C:\vcpkg\installed\x64-windows-static\include
