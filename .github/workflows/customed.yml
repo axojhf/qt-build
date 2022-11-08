@@ -38,7 +38,7 @@ jobs:
       - name: Build
         run: |
           # $env:Path = "C:\mingw64\bin;C:\ninja;C:\ffmpeg\include;C:\ffmpeg\lib;C:\ffmpeg\bin;$env:Path"
-          $env:Path = "C:\mingw64\bin;C:\ninja;C:\ffmpeg\include;C:\ffmpeg\lib;C:\ffmpeg\bin;C:\Strawberry\perl\bin;C:\hostedtoolcache\windows\Python\3.7.9\x64;C:\Program Files\PowerShell\7;C:\Program Files\CMake\bin"
+          $env:Path = "C:\mingw64\bin;C:\ninja;C:\ffmpeg\include;C:\ffmpeg\lib;C:\ffmpeg\bin;C:\Strawberry\perl\bin;C:\hostedtoolcache\windows\Python\3.7.9\x64;C:\Program Files\PowerShell\7;C:\Program Files\CMake\bin;C:\Windows\System32\WindowsPowerShell\v1.0"
           $env:QT_MEDIA_BACKEND = "ffmpeg"
           $env:FFMPEG_INCLUDE_DIRS = "C:\ffmpeg\include"
           $env:FFMPEG_LIBRARY_DIRS = "C:\ffmpeg\lib"
