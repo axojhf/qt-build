@@ -20,7 +20,7 @@ jobs:
           $env:PATH
       - name: Init Vcpkg
         run: |
-          $env:Path = "C:\mingw64\bin;C:\ninja;C:\Program Files\Git\bin;C:\Program Files\PowerShell\7"
+          $env:Path = "C:\mingw64\bin;C:\ninja;C:\Program Files\Git\bin;C:\Program Files\PowerShell\7;C:\Windows\System32\WindowsPowerShell\v1.0"
           cd C:
           rm -r -force vcpkg
           git clone --depth=1 https://github.com/microsoft/vcpkg
