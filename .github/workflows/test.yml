@@ -25,7 +25,7 @@ jobs:
           git clone --depth=1 https://github.com/microsoft/vcpkg
           cd vcpkg
           .\bootstrap-vcpkg.bat
-          .\vcpkg.exe install zlib:x64-mingw-static libjpeg-turbo:x64-mingw-static libpng:x64-mingw-static freetype:x64-mingw-static pcre2:x64-mingw-static
+          .\vcpkg.exe install harfbuzz[glib,graphite2]:x64-mingw-static
       - uses: actions/upload-artifact@v3
         with:
           name: vcpkg-build
