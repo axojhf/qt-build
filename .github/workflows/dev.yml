@@ -1,58 +1,50 @@
-name: 'Custom Qt MinGw64 Dyn'
+name: 'Dev MinGW64 Build'
 
 on:
   push:
     branches:
-      - mingw64_custom
+      - dev-build
 jobs:
-  dyn-mingw64-custom:
-    name: Qt MinGW64 Custom Dynamic
+  dyn-mingw64-dev-mini:
+    name: Qt Dev MinGW64 Dynamic
     runs-on: windows-2019
     steps:
       - name: Set Mingw64 Ninja FFmpeg OpenSSL
         run: |
           (new-object System.Net.WebClient).DownloadFile('https://github.com/cristianadam/mingw-builds/releases/download/v11.2.0-rev3/x86_64-11.2.0-release-posix-seh-rt_v9-rev3.7z','mingw64.7z')
           7z x -aoa -oC:\ mingw64.7z
-          del mingw64.7z
+          rm mingw64.7z
           (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
           7z x -aoa -oC:\ninja ninja-win.zip
-          del ninja-win.zip
+          rm ninja-win.zip
           (new-object System.Net.WebClient).DownloadFile('https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-win64-gpl-shared.zip','ffmpeg-master-latest-win64-gpl-shared.zip')
           7z x -aoa -oC:\ ffmpeg-master-latest-win64-gpl-shared.zip
           ren C:\ffmpeg-master-latest-win64-gpl-shared ffmpeg
-          del ffmpeg-master-latest-win64-gpl-shared.zip
+          rm ffmpeg-master-latest-win64-gpl-shared.zip
           (new-object System.Net.WebClient).DownloadFile('https://download.firedaemon.com/FireDaemon-OpenSSL/openssl-1.1.1s.zip','openssl.zip')
           7z x -aoa -oC:\ openssl.zip
-          del openssl.zip
+          rm openssl.zip
       - name: Init Qt Repository
         run: |
           $env:Path = "C:\mingw64\bin;C:\ninja;C:\ffmpeg\include;C:\ffmpeg\lib;C:\ffmpeg\bin;$env:Path"
-          $env:QT_MEDIA_BACKEND = "ffmpeg"
-          $env:FFMPEG_INCLUDE_DIRS = "C:\ffmpeg\include"
-          $env:FFMPEG_LIBRARY_DIRS = "C:\ffmpeg\lib"
-          ffmpeg -v
           cd C:/
-          git clone https://code.qt.io/qt/qt5.git -b 6.4
+          git clone --depth=1 https://github.com/qt/qt5.git -b dev
           cd qt5
           perl init-repository -f --module-subset=qt5compat,qt3d,qtbase,qtcharts,qtdeclarative,qtimageformats,qtquicktimeline,qtquick3d,qtshadertools,qtsvg
-          rm -r -force qtmultimedia
-          git clone --depth=1 https://github.com/axojhf/qtmultimedia.git -b 6.4-mod
-          ls
       - name: Build
         run: |
-          # $env:Path = "C:\mingw64\bin;C:\ninja;C:\ffmpeg\include;C:\ffmpeg\lib;C:\ffmpeg\bin;$env:Path"
           $env:Path = "C:\openssl-1.1\x64\lib;C:\openssl-1.1\x64\include;C:\mingw64\bin;C:\ninja;C:\ffmpeg\include;C:\ffmpeg\lib;C:\ffmpeg\bin;C:\Strawberry\perl\bin;C:\hostedtoolcache\windows\Python\3.7.9\x64;C:\Program Files\PowerShell\7;C:\Program Files\CMake\bin;C:\Windows\System32\WindowsPowerShell\v1.0"
           $env:QT_MEDIA_BACKEND = "ffmpeg"
           $env:FFMPEG_INCLUDE_DIRS = "C:\ffmpeg\include"
           $env:FFMPEG_LIBRARY_DIRS = "C:\ffmpeg\lib"
           cd C:/qt5
-          ./configure.bat -release -shared -platform win32-g++ -prefix "C:\QtMinGw64Dyn" -confirm-license -nomake examples -nomake tests -qt-zlib -qt-libjpeg -qt-libpng -qt-freetype -qt-pcre -qt-harfbuzz -qt-sqlite -no-sql-psql -qt-tiff -qt-webp
+          ./configure.bat -release -shared -platform win32-g++ -prefix "C:\QtDevMinGw64Dyn" -confirm-license -nomake examples -nomake tests -qt-zlib -qt-libjpeg -qt-libpng -qt-freetype -qt-pcre -qt-harfbuzz -qt-sqlite -no-sql-psql -qt-tiff -qt-webp
           cmake --build . --parallel 4
           cmake --install .
       - name: Package Directories
         run: |
-          7z a qt6_dyn.7z C:\QtMinGw64Dyn
+          7z a qt6_dev_dyn.7z C:\QtDevMinGw64Dyn
       - uses: actions/upload-artifact@v3
         with:
-          name: qt6_mingw64-dyn-ffmpeg-back
-          path: qt6_dyn.7z
+          name: qt6-dev-mingw64-dyn-ffmpeg-back
+          path: qt6_dev_dyn.7z
