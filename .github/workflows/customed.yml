@@ -32,7 +32,7 @@ jobs:
           $env:FFMPEG_LIBRARY_DIRS = "C:\ffmpeg\lib"
           ffmpeg -v
           cd C:/
-          git clone https://code.qt.io/qt/qt5.git -b 6.4
+          git clone --depth=1 https://code.qt.io/qt/qt5.git -b 6.4
           cd qt5
           perl init-repository -f --module-subset=qt5compat,qt3d,qtbase,qtcharts,qtdeclarative,qtimageformats,qtquicktimeline,qtquick3d,qtshadertools,qtsvg
           rm -r -force qtmultimedia
@@ -54,5 +54,5 @@ jobs:
           7z a qt6_dyn.7z C:\QtMinGw64Dyn
       - uses: actions/upload-artifact@v3
         with:
-          name: qt6_mingw64-dyn-ffmpeg-back
+          name: qt6_mingw64-dyn-ffmpeg-back-custom
           path: qt6_dyn.7z
