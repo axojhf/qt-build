@@ -121,7 +121,7 @@ jobs:
         run: |
           $Env:PATH = "C:\LLVM\bin;C:\ninja;$Env:PATH"
           cd C:/
-          git clone https://code.qt.io/qt/qt5.git -b dev
+          git clone --depth=1 https://code.qt.io/qt/qt5.git -b dev
           cd qt5
           perl init-repository -f --module-subset=qt5compat,qt3d,qtbase,qtcharts,qtdeclarative,qtimageformats,qtquicktimeline,qtquick3d,qtshadertools,qtsvg,qtmultimedia
           ./configure.bat -release -shared -platform win32-clang-msvc -prefix "C:\QtClangDyn" -confirm-license -nomake examples -nomake tests -qt-zlib -qt-libjpeg -qt-libpng -qt-freetype -qt-pcre -qt-harfbuzz -qt-sqlite -no-sql-psql -no-sql-mysql -qt-tiff -qt-webp
