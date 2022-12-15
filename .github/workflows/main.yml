@@ -113,13 +113,20 @@ jobs:
           (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
           7z x -aoa -oC:\ninja ninja-win.zip
           rm ninja-win.zip
+          (new-object System.Net.WebClient).DownloadFile('https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-win64-gpl-shared.zip','ffmpeg-master-latest-win64-gpl-shared.zip')
+          7z x -aoa -oC:\ ffmpeg-master-latest-win64-gpl-shared.zip
+          ren C:\ffmpeg-master-latest-win64-gpl-shared ffmpeg
+          rm ffmpeg-master-latest-win64-gpl-shared.zip
+          (new-object System.Net.WebClient).DownloadFile('https://download.firedaemon.com/FireDaemon-OpenSSL/openssl-1.1.1s.zip','openssl.zip')
+          7z x -aoa -oC:\ openssl.zip
+          rm openssl.zip
       - uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: amd64
           toolset: 14.2
       - name: Build script
         run: |
-          $Env:PATH = "C:\LLVM\bin;C:\ninja;$Env:PATH"
+          $Env:PATH = "C:\LLVM\bin;C:\ninja;C:\ffmpeg\include;C:\ffmpeg\lib;C:\ffmpeg\bin;C:\openssl-1.1\x64\lib;C:\openssl-1.1\x64\include;$Env:PATH"
           cd C:/
           git clone --depth=1 https://code.qt.io/qt/qt5.git -b dev
           cd qt5
