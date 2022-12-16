@@ -139,7 +139,7 @@ jobs:
           7z a qtdevMSVCDynamic.7z C:\QtMSVCDyn
       - uses: actions/upload-artifact@v3
         with:
-          name: qtdev_clang_msvc_dynamic
+          name: qtdev_vc142_dynamic
           path: qtdevMSVCDynamic.7z
 
   # dyn-win32-clang-msvc-dev:
