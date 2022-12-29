@@ -103,7 +103,7 @@ jobs:
 
   dyn-win32-msvc-dev:
     name: Dynamic Qt Dev MSVC Build
-    runs-on: windows-2019
+    runs-on: windows-2022
     steps:
       - name: Install LLVM
         run: |
@@ -123,7 +123,7 @@ jobs:
       - uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: amd64
-          toolset: 14.2
+          toolset: 14.3
       - name: Build script
         run: |
           $Env:PATH = "C:\LLVM\bin;C:\ninja;C:\ffmpeg\include;C:\ffmpeg\lib;C:\ffmpeg\bin;C:\openssl-1.1\x64\lib;C:\openssl-1.1\x64\include;$Env:PATH"
@@ -139,7 +139,7 @@ jobs:
           7z a qtdevMSVCDynamic.7z C:\QtMSVCDyn
       - uses: actions/upload-artifact@v3
         with:
-          name: qtdev_vc142_dynamic
+          name: qtdev_vc143_dynamic
           path: qtdevMSVCDynamic.7z
 
   # dyn-win32-clang-msvc-dev:
