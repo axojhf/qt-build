@@ -141,7 +141,7 @@ jobs:
         with:
           name: qtdev_vc143_dynamic
           path: qtdevMSVCDynamic.7z
-  65-dyn-mingw64-dev:
+  dyn-65-mingw64-dev:
     name: Dynamic Qt 6.5 MinGW64 
     runs-on: windows-2019
     steps:
