@@ -34,7 +34,7 @@ jobs:
           git clone --depth=1 https://code.qt.io/qt-creator/qt-creator.git
           cd qt-creator ; git submodule update --init --recursive
           mkdir build ; cd build
-          cmake .. -DCMAKE_BUILD_TYPE=Release -GNinja -DCMAKE_PREFIX_PATH=C:\qt-creator-install -DBUILD_QBS=ON
+          cmake .. -DCMAKE_BUILD_TYPE=Release -GNinja -DCMAKE_PREFIX_PATH=C:\qt-creator-install
           cmake --build . ; cmake --install . --component Dependencies
       - name: Package Directories
         run: |
