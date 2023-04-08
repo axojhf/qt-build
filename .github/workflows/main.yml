@@ -18,7 +18,7 @@ jobs:
       - name: Install Qt
         uses: jurplel/install-qt-action@v3
         with:
-          dir: 'C:/QT/'
+          dir: 'C:/'
           aqtversion: '==3.1.*'
           py7zrversion: '>=0.20.2'
           version: '6.5.0'
@@ -28,12 +28,12 @@ jobs:
           modules: 'qt3d qtactiveqt qtcharts qtconnectivity qtdatavis3d qtgrpc qthttpserver qtimageformats qtlanguageserver qtlocation qtlottie qtmultimedia qtnetworkauth qtpositioning qtquick3dphysics qtquickeffectmaker qtremoteobjects qtscxml qtsensors qtserialbus qtserialport qtspeech qtvirtualkeyboard qtwebchannel qtwebsockets qtwebview debug_info qt5compat qtquick3d qtquicktimeline qtshadertools'
       - name: Build
         run: |
-          ls C:\QT
-          $env:Path = "C:\mingw64\bin;C:\ninja;C:\QT\6.5.0\mingw_64\bin;$env:Path"
-          cd C:/
+          ls C:\Qt\6.5.0\mingw_64\bin
+          $env:Path = "C:\mingw64\bin;C:\ninja;C:\Qt\6.5.0\mingw_64\bin;C:\Qt\6.5.0\mingw_64$env:Path"
+          cd C:\
           git clone --depth=1 https://code.qt.io/qt-creator/qt-creator.git
           cd qt-creator ; git submodule update --init --recursive
-          mkdir build
+          mkdir build ; cd build
           cmake .. -DCMAKE_BUILD_TYPE=Debug -G Ninja -DCMAKE_PREFIX_PATH=C:\qt-creator-install
           ninja ; ninja install
       - name: Package Directories
