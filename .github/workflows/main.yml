@@ -35,7 +35,7 @@ jobs:
           cd qt-creator ; git submodule update --init --recursive
           mkdir build ; cd build
           cmake .. -DCMAKE_BUILD_TYPE=Release -GNinja -DCMAKE_PREFIX_PATH=C:\qt-creator-install
-          cmake --build . ; cmake --install . --component Dependencies
+          cmake --build . ; cmake --install . --prefix C:\qt-creator-install --component Dependencies
       - name: Package Directories
         run: |
           7z a qt-creator-latest.7z C:\qt-creator-install
