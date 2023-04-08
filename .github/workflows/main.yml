@@ -5,7 +5,7 @@ on:
     branches:
       - qt-creator
 jobs:
-  dyn-mingw64-dev:
+  qt650:
     name: Qt Creator master MinGW64 Build
     runs-on: windows-2019
     steps:
@@ -50,6 +50,45 @@ jobs:
           files: |
             qt-creator-latest.7z
 
+  qt642:
+    name: Qt Creator master MinGW64 Build
+    runs-on: windows-2019
+    steps:
+      - name: Set Mingw64 Ninja
+        run: |
+          (new-object System.Net.WebClient).DownloadFile('https://github.com/cristianadam/mingw-builds/releases/download/v11.2.0-rev3/x86_64-11.2.0-release-posix-seh-rt_v9-rev3.7z','mingw64.7z')
+          7z x -aoa -oC:\ mingw64.7z ; rm mingw64.7z
+          (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
+          7z x -aoa -oC:\ninja ninja-win.zip ; rm ninja-win.zip
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+          aqtversion: '==3.1.*'
+          py7zrversion: '>=0.20.2'
+          version: '6.4.2'
+          host: 'windows'
+          target: 'desktop'
+          arch: 'win64_mingw'
+          modules: 'qt3d qtactiveqt qtcharts qtconnectivity qtdatavis3d qthttpserver qtimageformats qtlanguageserver qtlottie qtmultimedia qtnetworkauth qtpositioning qtquick3dphysics qtremoteobjects qtscxml qtsensors qtserialbus qtserialport qtspeech qtvirtualkeyboard qtwebchannel qtwebsockets qtwebview debug_info qt5compat qtquick3d qtquicktimeline qtshadertools'
+      - name: Build
+        run: |
+          ls C:\Qt\6.4.2\mingw_64\bin
+          $env:Path = "C:\mingw64\bin;C:\ninja;C:\Qt\6.4.2\mingw_64\bin;C:\Qt\6.4.2\mingw_64$env:Path"
+          cd C:\
+          git clone --depth=1 https://code.qt.io/qt-creator/qt-creator.git
+          cd qt-creator ; git submodule update --init --recursive
+          mkdir build ; cd build
+          cmake .. -DCMAKE_BUILD_TYPE=Release -GNinja -DCMAKE_PREFIX_PATH=C:\qt-creator-install
+          cmake --build . ; cmake --install . --prefix C:\qt-creator-install
+      - name: Package Directories
+        run: |
+          7z a qt-creator-latest-qt6.4.2.7z C:\qt-creator-install
+      - name: Update OpenSSL Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: qt-creator-master
+          files: |
+            qt-creator-latest-qt6.4.2.7z
   # dyn-mingw64-custom:
   #   name: Dynamic Qt 6.4 MinGW64 Custom 
   #   runs-on: windows-2019
