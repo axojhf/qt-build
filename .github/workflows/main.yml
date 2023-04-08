@@ -3,7 +3,7 @@ name: 'Multiple Build'
 on:
   push:
     branches:
-      - main
+      - qt-creator
 jobs:
   dyn-mingw64-dev:
     name: Dynamic Qt Dev MinGW64 
