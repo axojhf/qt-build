@@ -40,7 +40,7 @@ jobs:
           Write-Output $qtpathFullName
           $env:QTBUILD_STATIC_VS2022 = "$qtpathFullName"
           cd C:\ ; git clone https://github.com/qt-labs/vstools.git ; cd vstools
-          # .\vstools.bat -init -startvs
+          .\vstools.bat -init
           .\vstools.bat -vs2022 -build -deploy C:\vstools_install
       - name: Package binaries
         run: |
