@@ -15,10 +15,10 @@ jobs:
           dir: 'C:\'
           aqtversion: '==3.1.*'
           py7zrversion: '>=0.20.2'
-          version: '5.15.2'
+          version: '5.12.9'
           host: 'windows'
           target: 'desktop'
-          arch: 'win64_msvc2019_64'
+          arch: 'win64_msvc2017_64'
       - uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: amd64
@@ -62,12 +62,12 @@ jobs:
       - name: Build script
         run: |
           $Env:PATH = "C:\ninja;$Env:PATH"
-          cd C:/ ; git clone --depth=1 https://code.qt.io/qt/qt5.git -b 5.15 ; cd qt5
+          cd C:/ ; git clone --depth=1 https://code.qt.io/qt/qt5.git -b 5.12.10 ; cd qt5
           perl init-repository -f --module-subset=qtbase,qtdeclarative
-          ./configure.bat -release -static -platform win32-msvc -prefix "C:\Qt515" -confirm-license -nomake examples -nomake tests -qt-zlib -qt-libjpeg -qt-libpng -qt-freetype -qt-pcre -qt-harfbuzz -qt-sqlite -no-sql-psql -no-sql-mysql
+          ./configure.bat -release -static -platform win32-msvc -prefix "C:\Qt5.12" -confirm-license -nomake examples -nomake tests -qt-zlib -qt-libjpeg -qt-libpng -qt-freetype -qt-pcre -qt-harfbuzz -qt-sqlite -no-sql-psql -no-sql-mysql
           nmake
           nmake install
-          $env:QTBUILD_STATIC_VS2022 = "C:\Qt515"
+          $env:QTBUILD_STATIC_VS2022 = "C:\Qt5.12"
           cd C:\ ; git clone https://github.com/qt-labs/vstools.git ; cd vstools
           .\vstools.bat -init
           .\vstools.bat -vs2022 -build -deploy C:\vstools_install
