@@ -73,7 +73,7 @@ jobs:
           $Env:PATH = "C:\ninja;$Env:PATH"
           cd C:/ ; git clone --depth=1 https://code.qt.io/qt/qt5.git -b 5.15 ; cd qt5
           perl init-repository -f --module-subset=qt5compat,qtbase,qtdeclarative
-          ./configure.bat -release -shared -platform win32-msvc -prefix "C:\Qt515" -confirm-license -nomake examples -nomake tests -qt-zlib -qt-libjpeg -qt-libpng -qt-freetype -qt-pcre -qt-harfbuzz -qt-sqlite -no-sql-psql -no-sql-mysql -qt-tiff -qt-webp
+          ./configure.bat -release -static -platform win32-msvc -prefix "C:\Qt515" -confirm-license -nomake examples -nomake tests -qt-zlib -qt-libjpeg -qt-libpng -qt-freetype -qt-pcre -qt-harfbuzz -qt-sqlite -no-sql-psql -no-sql-mysql -qt-tiff -qt-webp
           cmake --build . --parallel 4
           cmake --install .
           $env:QTBUILD_STATIC_VS2022 = "C:\Qt515"
