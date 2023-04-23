@@ -35,13 +35,13 @@ jobs:
           .\vstools.bat -vs2022 -build -deploy C:\vstools_install
       - name: Package binaries
         run: |
-          7z a qt_vstools_latest.7z C:\vstools_install
+          7z a qt_vstools_latest_dynamic.7z C:\vstools_install
       - name: Update Static Qt Dev MSVC Release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: qt-vstools-build
           files: |
-            qt_vstools_latest.7z
+            qt_vstools_latest_dynamic.7z
 
   qt515:
     name: vstools Build Qt 5.15
