@@ -98,4 +98,47 @@ jobs:
           tag_name: qt-creator-master
           files: |
             qt-creator-msvc-latest.7z
-
+  qt64-msvc:
+    name: Qt Creator master Qt 6.4 MSVC2022 Build
+    runs-on: windows-2022
+    steps:
+      - name: Set Ninja
+        run: |
+          (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
+          7z x -aoa -oC:\ninja ninja-win.zip ; rm ninja-win.zip
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+          dir: 'C:/'
+          aqtversion: '==3.1.*'
+          py7zrversion: '>=0.20.2'
+          version: '6.4.2'
+          host: 'windows'
+          target: 'desktop'
+          arch: 'win64_msvc2019_64'
+          modules: 'qt3d qtactiveqt qtcharts qtconnectivity qtdatavis3d qthttpserver qtimageformats qtlanguageserver qtlottie qtmultimedia qtnetworkauth qtpdf qtpositioning qtquick3dphysics qtremoteobjects qtscxml qtsensors qtserialbus qtserialport qtspeech qtvirtualkeyboard qtwebchannel qtwebengine qtwebsockets qtwebview debug_info qt5compat qtquick3d qtquicktimeline qtshadertools'
+      - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: amd64
+          toolset: 14.3
+      - name: Build
+        run: |
+          $qtpath1 = Get-ChildItem -Path 'C:\Qt' | Select-Object -First 1
+          $qtpath2 = Get-ChildItem -Path $qtpath1.FullName | Select-Object -First 1
+          $qtpathFullName = $qtpath2.FullName
+          Write-Output $qtpathFullName
+          $env:Path = "C:\ninja;$qtpathFullName\bin;$qtpathFullName;$env:Path"
+          cd C:\ ; git clone --depth=1 https://code.qt.io/qt-creator/qt-creator.git
+          cd qt-creator ; git submodule update --init --recursive
+          mkdir build ; cd build
+          cmake .. -DCMAKE_BUILD_TYPE=Release -GNinja -DCMAKE_PREFIX_PATH=C:\qt-creator-install
+          cmake --build . ; cmake --install . --prefix C:\qt-creator-install
+      - name: Package Directories
+        run: |
+          7z a qt-creator-qt6.4-msvc-latest.7z C:\qt-creator-install
+      - name: Update QtCreator Master MSVC Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: qt-creator-master
+          files: |
+            qt-creator-qt6.4-msvc-latest.7z
