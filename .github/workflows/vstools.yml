@@ -1,0 +1,42 @@
+name: 'vstools Build'
+
+on:
+  push:
+    branches:
+      - vstools
+  workflow_dispatch:
+
+jobs:
+  vstools-qt515:
+    name: vstools Qt 5.15 Build
+    runs-on: windows-2022
+    steps:
+      - name: Install LLVM
+        run: |
+          (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
+          7z x -aoa -oC:\ninja ninja-win.zip ; rm ninja-win.zip
+      - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: amd64
+          toolset: 14.3
+      - name: Build script
+        run: |
+          $Env:PATH = "C:\ninja;$Env:PATH"
+          cd C:/ ; git clone --depth=1 https://code.qt.io/qt/qt5.git -b 5.15 ; cd qt5
+          perl init-repository -f --module-subset=qtbase,qtdeclarative
+          ./configure.bat -release -static -platform win32-msvc -prefix "C:\Qt5.15" -confirm-license -nomake examples -nomake tests -qt-zlib -qt-libjpeg -qt-libpng -qt-freetype -qt-pcre -qt-harfbuzz -qt-sqlite -no-sql-psql -no-sql-mysql
+          nmake
+          nmake install
+          $env:QTBUILD_STATIC_VS2022 = "C:\Qt5.15"
+          cd C:\ ; git clone https://github.com/qt-labs/vstools.git ; cd vstools
+          .\vstools.bat -init
+          .\vstools.bat -vs2022 -build -deploy C:\vstools_install
+      - name: Package binaries
+        run: |
+          7z a qt_vstools_latest.7z C:\vstools_install
+      - name: Update Static Qt Dev MSVC Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: qt-vstools-build
+          files: |
+            qt_vstools_latest.7z
