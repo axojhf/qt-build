@@ -24,11 +24,16 @@ jobs:
       - name: Build script
         run: |
           # $Env:PATH = "C:\ninja;C:\ffmpeg\include;C:\ffmpeg\lib;C:\ffmpeg\bin;C:\openssl-3\x64\lib;C:\openssl-3\x64\include;$Env:PATH"
-          cd C:/ ; git clone --depth=1 https://github.com/qt/qt5 -b 5.7 ; cd qt5
+          cd C:/ ; git clone --depth=1 https://github.dev/axojhf/qt-build -b test
+          git clone --depth=1 https://github.com/qt/qt5 -b 5.7 ; cd qt5
           perl init-repository -f --module-subset=qt3d,qtbase,qtcharts,qtdeclarative,qtimageformats,qtsvg
+          cp C:\qt-build\5.7\win32-msvc C:\qt5\qtbase\mkspecs -r -Force
+          cp C:\qt-build\5.7\msvc-desktop.conf C:\qt5\qtbase\mkspecs\common -r -Force
           ./configure.bat -release -static -platform win32-msvc -prefix "C:\Qt57MSVCStatic" -confirm-license -nomake examples -nomake tests -schannel -qt-zlib -qt-libjpeg -qt-libpng -qt-freetype -qt-pcre -qt-harfbuzz -qt-sqlite -no-sql-psql -no-sql-mysql
-          cmake --build . --parallel 4
-          cmake --install .
+          nmake
+          namke install
+          # cmake --build . --parallel 4
+          # cmake --install .
       - name: Package binaries
         run: |
           7z a qt5.7_vc143_static.7z C:\Qt57MSVCStatic
