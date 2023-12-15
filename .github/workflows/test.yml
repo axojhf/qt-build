@@ -20,7 +20,7 @@ jobs:
       - uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: amd64
-          toolset: 14.3
+          toolset: 14.1
       - name: Build script
         run: |
           # $Env:PATH = "C:\ninja;C:\ffmpeg\include;C:\ffmpeg\lib;C:\ffmpeg\bin;C:\openssl-3\x64\lib;C:\openssl-3\x64\include;$Env:PATH"
@@ -29,7 +29,7 @@ jobs:
           perl init-repository -f --module-subset=qt3d,qtbase,qtcharts,qtdeclarative,qtimageformats,qtsvg,qttools
           # cp C:\qt-build\5.7\win32-msvc C:\qt5\qtbase\mkspecs -r -Force
           cp C:\qt-build\5.7\msvc-desktop.conf C:\qt5\qtbase\mkspecs\common -r -Force
-          cp C:\qt-build\5.7\msvc-base.conf C:\qt5\qtbase\mkspecs\common -r -Force
+          # cp C:\qt-build\5.7\msvc-base.conf C:\qt5\qtbase\mkspecs\common -r -Force
           ./configure.bat -release -static -platform win32-msvc2017 -prefix "C:\Qt57MSVCStatic" -opengl desktop -opensource -confirm-license -nomake examples -nomake tests -qt-zlib -qt-libjpeg -qt-libpng -qt-freetype -qt-pcre -qt-harfbuzz -qt-sql-sqlite -no-openssl -no-sql-psql -no-sql-mysql -no-sql-odbc
           nmake
           nmake install
@@ -37,10 +37,10 @@ jobs:
           # cmake --install .
       - name: Package binaries
         run: |
-          7z a qt5.7_vc143_static.7z C:\Qt57MSVCStatic
+          7z a qt5.7_vc141_static.7z C:\Qt57MSVCStatic
       - name: Update Static Qt 6.5 MSVC Release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: qt-static
           files: |
-            qt5.7_vc143_static.7z
+            qt5.7_vc141_static.7z
