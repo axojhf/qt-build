@@ -24,7 +24,7 @@ jobs:
       - name: Build script
         run: |
           # $Env:PATH = "C:\ninja;C:\ffmpeg\include;C:\ffmpeg\lib;C:\ffmpeg\bin;C:\openssl-3\x64\lib;C:\openssl-3\x64\include;$Env:PATH"
-          cd C:/ ; git clone --depth=1 https://github.dev/axojhf/qt-build -b test
+          cd C:/ ; git clone --depth=1 https://github.com/axojhf/qt-build -b test
           git clone --depth=1 https://github.com/qt/qt5 -b 5.7 ; cd qt5
           perl init-repository -f --module-subset=qt3d,qtbase,qtcharts,qtdeclarative,qtimageformats,qtsvg
           cp C:\qt-build\5.7\win32-msvc C:\qt5\qtbase\mkspecs -r -Force
