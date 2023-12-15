@@ -29,7 +29,7 @@ jobs:
           perl init-repository -f --module-subset=qt3d,qtbase,qtcharts,qtdeclarative,qtimageformats,qtsvg
           cp C:\qt-build\5.7\win32-msvc C:\qt5\qtbase\mkspecs -r -Force
           cp C:\qt-build\5.7\msvc-desktop.conf C:\qt5\qtbase\mkspecs\common -r -Force
-          ./configure.bat -release -static -platform win32-msvc -prefix "C:\Qt57MSVCStatic" -confirm-license -nomake examples -nomake tests -qt-zlib -qt-libjpeg -qt-libpng -qt-freetype -qt-pcre -qt-harfbuzz -qt-sql-sqlite -no-sql-psql -no-sql-mysql -no-sqp-odbc
+          ./configure.bat -release -static -platform win32-msvc -prefix "C:\Qt57MSVCStatic" -confirm-license -nomake examples -nomake tests -qt-zlib -qt-libjpeg -qt-libpng -qt-freetype -qt-pcre -qt-harfbuzz -qt-sql-sqlite -no-sql-psql -no-sql-mysql -no-sql-odbc
           nmake
           nmake install
           # cmake --build . --parallel 4
