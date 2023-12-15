@@ -26,9 +26,10 @@ jobs:
           # $Env:PATH = "C:\ninja;C:\ffmpeg\include;C:\ffmpeg\lib;C:\ffmpeg\bin;C:\openssl-3\x64\lib;C:\openssl-3\x64\include;$Env:PATH"
           cd C:/ ; git clone --depth=1 https://github.com/axojhf/qt-build -b test
           git clone --depth=1 https://github.com/qt/qt5 -b 5.7 ; cd qt5
-          perl init-repository -f --module-subset=qt3d,qtbase,qtcharts,qtdeclarative,qtimageformats,qtsvg
+          perl init-repository -f --module-subset=qt3d,qtbase,qtcharts,qtdeclarative,qtimageformats,qtsvg,qttools
           # cp C:\qt-build\5.7\win32-msvc C:\qt5\qtbase\mkspecs -r -Force
           cp C:\qt-build\5.7\msvc-desktop.conf C:\qt5\qtbase\mkspecs\common -r -Force
+          cp C:\qt-build\5.7\msvc-base.conf C:\qt5\qtbase\mkspecs\common -r -Force
           ./configure.bat -release -static -platform win32-msvc2017 -prefix "C:\Qt57MSVCStatic" -opengl desktop -opensource -confirm-license -nomake examples -nomake tests -qt-zlib -qt-libjpeg -qt-libpng -qt-freetype -qt-pcre -qt-harfbuzz -qt-sql-sqlite -no-openssl -no-sql-psql -no-sql-mysql -no-sql-odbc
           nmake
           nmake install
