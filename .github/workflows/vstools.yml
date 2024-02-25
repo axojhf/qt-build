@@ -11,7 +11,7 @@ jobs:
     name: vstools Qt 5.15 Build
     runs-on: windows-2022
     steps:
-      - name: Install LLVM
+      - name: Install latest
         run: |
           (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
           7z x -aoa -oC:\ninja ninja-win.zip ; rm ninja-win.zip
