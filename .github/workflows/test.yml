@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: Install LLVM
         run: |
-          winget install dust --silent
+          winget install dust --silent --accept-package-agreements --accept-source-agreements
           dust -d 1
           cd C:/
           dust -d 1
