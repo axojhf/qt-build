@@ -13,10 +13,12 @@ jobs:
         run: |
           # winget install bootandy.dust --silent --accept-package-agreements --accept-source-agreements
           choco install dust -y
-          dust -d 1
-          cd C:/
-          dust -d 1
           [System.IO.Directory]::EnumerateFiles("C:\Program Files\Microsoft Visual Studio", "vcvars64.bat", [System.IO.SearchOption]::AllDirectories)
+          ls
+          # dust -d 1
+          cd C:/
+          dust -P -c -d 1
+          
   # static-57-win32-msvc-dev:
   #   name: Static Qt 5.7 MSVC Build
   #   runs-on: windows-2022
