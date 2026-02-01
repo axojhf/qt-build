@@ -11,7 +11,8 @@ jobs:
     steps:
       - name: Install LLVM
         run: |
-          winget install bootandy.dust --silent --accept-package-agreements --accept-source-agreements
+          # winget install bootandy.dust --silent --accept-package-agreements --accept-source-agreements
+          choco install dust -y
           dust -d 1
           cd C:/
           dust -d 1
