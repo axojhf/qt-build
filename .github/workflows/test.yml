@@ -5,42 +5,53 @@ on:
     branches:
       - test
 jobs:
-  static-57-win32-msvc-dev:
-    name: Static Qt 5.7 MSVC Build
-    runs-on: windows-2022
+  test:
+    name: test
+    runs-on: windows-latest
     steps:
       - name: Install LLVM
         run: |
-          # (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
-          # 7z x -aoa -oC:\ninja ninja-win.zip ; rm ninja-win.zip
-          # (new-object System.Net.WebClient).DownloadFile('https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-win64-gpl-shared.zip','ffmpeg-master-latest-win64-gpl-shared.zip')
-          # 7z x -aoa -oC:\ ffmpeg-master-latest-win64-gpl-shared.zip ; ren C:\ffmpeg-master-latest-win64-gpl-shared ffmpeg ; rm ffmpeg-master-latest-win64-gpl-shared.zip
-          # (new-object System.Net.WebClient).DownloadFile('https://download.firedaemon.com/FireDaemon-OpenSSL/openssl-3.1.2.zip','openssl.zip')
-          # 7z x -aoa -oC:\ openssl.zip ; rm openssl.zip
-      - uses: ilammy/msvc-dev-cmd@v1
-        with:
-          arch: amd64
-          toolset: 14.1
-      - name: Build script
-        run: |
-          # $Env:PATH = "C:\ninja;C:\ffmpeg\include;C:\ffmpeg\lib;C:\ffmpeg\bin;C:\openssl-3\x64\lib;C:\openssl-3\x64\include;$Env:PATH"
-          cd C:/ ; git clone --depth=1 https://github.com/axojhf/qt-build -b test
-          git clone --depth=1 https://github.com/qt/qt5 -b 5.7 ; cd qt5
-          perl init-repository -f --module-subset=qt3d,qtbase,qtcharts,qtdeclarative,qtimageformats,qtsvg,qttools,qtwinextras
-          # cp C:\qt-build\5.7\win32-msvc C:\qt5\qtbase\mkspecs -r -Force
-          cp C:\qt-build\5.7\msvc-desktop.conf C:\qt5\qtbase\mkspecs\common -r -Force
-          # cp C:\qt-build\5.7\msvc-base.conf C:\qt5\qtbase\mkspecs\common -r -Force
-          ./configure.bat -release -static -platform win32-msvc2017 -prefix "C:\Qt57MSVCStatic" -opengl desktop -opensource -confirm-license -nomake examples -nomake tests -qt-zlib -qt-libjpeg -qt-libpng -qt-freetype -qt-pcre -qt-harfbuzz -qt-sql-sqlite -no-openssl -no-sql-psql -no-sql-mysql -no-sql-odbc
-          nmake
-          nmake install
-          # cmake --build . --parallel 4
-          # cmake --install .
-      - name: Package binaries
-        run: |
-          7z a qt5.7_vc141_static.7z C:\Qt57MSVCStatic
-      - name: Update Static Qt 6.5 MSVC Release
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: qt-static
-          files: |
-            qt5.7_vc141_static.7z
+          winget install dust
+          dust -d 1
+          cd C:/
+          dust -d 1
+          [System.IO.Directory]::EnumerateFiles("C:\Program Files\Microsoft Visual Studio", "vcvars64.bat", [System.IO.SearchOption]::AllDirectories)
+  # static-57-win32-msvc-dev:
+  #   name: Static Qt 5.7 MSVC Build
+  #   runs-on: windows-2022
+  #   steps:
+  #     - name: Install LLVM
+  #       run: |
+  #         # (new-object System.Net.WebClient).DownloadFile('https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip','ninja-win.zip')
+  #         # 7z x -aoa -oC:\ninja ninja-win.zip ; rm ninja-win.zip
+  #         # (new-object System.Net.WebClient).DownloadFile('https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-win64-gpl-shared.zip','ffmpeg-master-latest-win64-gpl-shared.zip')
+  #         # 7z x -aoa -oC:\ ffmpeg-master-latest-win64-gpl-shared.zip ; ren C:\ffmpeg-master-latest-win64-gpl-shared ffmpeg ; rm ffmpeg-master-latest-win64-gpl-shared.zip
+  #         # (new-object System.Net.WebClient).DownloadFile('https://download.firedaemon.com/FireDaemon-OpenSSL/openssl-3.1.2.zip','openssl.zip')
+  #         # 7z x -aoa -oC:\ openssl.zip ; rm openssl.zip
+  #     - uses: ilammy/msvc-dev-cmd@v1
+  #       with:
+  #         arch: amd64
+  #         toolset: 14.1
+  #     - name: Build script
+  #       run: |
+  #         # $Env:PATH = "C:\ninja;C:\ffmpeg\include;C:\ffmpeg\lib;C:\ffmpeg\bin;C:\openssl-3\x64\lib;C:\openssl-3\x64\include;$Env:PATH"
+  #         cd C:/ ; git clone --depth=1 https://github.com/axojhf/qt-build -b test
+  #         git clone --depth=1 https://github.com/qt/qt5 -b 5.7 ; cd qt5
+  #         perl init-repository -f --module-subset=qt3d,qtbase,qtcharts,qtdeclarative,qtimageformats,qtsvg,qttools,qtwinextras
+  #         # cp C:\qt-build\5.7\win32-msvc C:\qt5\qtbase\mkspecs -r -Force
+  #         cp C:\qt-build\5.7\msvc-desktop.conf C:\qt5\qtbase\mkspecs\common -r -Force
+  #         # cp C:\qt-build\5.7\msvc-base.conf C:\qt5\qtbase\mkspecs\common -r -Force
+  #         ./configure.bat -release -static -platform win32-msvc2017 -prefix "C:\Qt57MSVCStatic" -opengl desktop -opensource -confirm-license -nomake examples -nomake tests -qt-zlib -qt-libjpeg -qt-libpng -qt-freetype -qt-pcre -qt-harfbuzz -qt-sql-sqlite -no-openssl -no-sql-psql -no-sql-mysql -no-sql-odbc
+  #         nmake
+  #         nmake install
+  #         # cmake --build . --parallel 4
+  #         # cmake --install .
+  #     - name: Package binaries
+  #       run: |
+  #         7z a qt5.7_vc141_static.7z C:\Qt57MSVCStatic
+  #     - name: Update Static Qt 6.5 MSVC Release
+  #       uses: softprops/action-gh-release@v1
+  #       with:
+  #         tag_name: qt-static
+  #         files: |
+  #           qt5.7_vc141_static.7z
